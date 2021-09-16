@@ -1,0 +1,57 @@
+# syntax=docker/dockerfile:1
+FROM ruby:3.0.2-alpine
+
+ARG BUNDLE_VERSION
+
+ARG APP_PATH
+ENV APP_PATH=${APP_PATH}
+ARG BUNDLE_PATH
+ENV BUNDLE_PATH=${BUNDLE_PATH}
+ARG TMP_PATH
+ENV TMP_PATH=${TMP_PATH}
+ARG RAILS_LOG_TO_STDOUT
+ENV RAILS_LOG_TO_STDOUT=${RAILS_LOG_TO_STDOUT}
+ARG RAILS_PORT
+ENV RAILS_PORT=${RAILS_PORT}
+
+# install OS dependencies
+RUN apk -U add --no-cache \
+    build-base \
+    git \
+    postgresql-dev \
+    postgresql-client \
+    libxml2-dev \
+    libxslt-dev \
+    nodejs \
+    yarn \
+    imagemagick \
+    tzdata \
+    mc \
+    sudo \
+    shadow \
+    && rm -rf /var/cache/apk/*
+
+# install Bundler
+RUN gem install bundler --version "$BUNDLE_VERSION" \
+    && rm -rf $GEM_HOME/cache/*
+
+# this workaround fixes volume permission errors in Linux hosts
+# adapted script from https://github.com/mhart/alpine-node/issues/48#issuecomment-430902787
+ARG USERID
+ARG GROUPID
+RUN if [ -z "$(getent group $GROUPID)" ]; then addgroup -system --gid $GROUPID rails; \
+    else groupmod -n rails $(getent group $GROUPID | cut -d: -f1); \
+    fi && \
+    if [ -z "$(getent passwd $USERID)" ]; then adduser --system -u $USERID --ingroup rails --shell /bin/ash app; \
+    else usermod -l app --gid $GROUPID -d /home/app -m $(getent passwd $USERID | cut -d: -f1); \
+    fi && \
+    echo "app ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/app && \
+    chmod 0440 /etc/sudoers.d/app
+
+WORKDIR $APP_PATH
+
+COPY --chown=app:rails . ./
+
+EXPOSE $RAILS_PORT
+
+ENTRYPOINT [ "bundle", "exec" ]

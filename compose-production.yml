@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  release:
+    image: $DOCKER_IMAGE
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_PATH: ${APP_PATH:-/var/app}
+        BUNDLE_VERSION: 2.2.27
+        BUNDLE_PATH: ${BUNDLE_PATH:-/usr/local/bundle/gems}
+        RAILS_LOG_TO_STDOUT: "true"
+        RAILS_PORT: 3000
+    stdin_open: true
+    tty: true
+    command: ["rackup", "--port", "3000"]
+    environment:
+      RAILS_ENV: production

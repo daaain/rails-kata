@@ -1,0 +1,83 @@
+version: "3.9"
+
+networks:
+  development:
+  test:
+
+volumes:
+  db_data:
+  gem_cache:
+  shared_data:
+
+services:
+  # redis:
+  #   image: redis:6.2-alpine
+  #   command: redis-server
+  #   networks:
+  #     - development
+  #     - test
+  #   volumes:
+  #     - shared_data:${SHARED_DATA_PATH:-/var/shared}/redis
+  db:
+    image: postgres:13.4-alpine
+    container_name: db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - shared_data:${SHARED_DATA_PATH:-/var/shared}
+    networks:
+      - development
+      - test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+      args:
+        APP_PATH: ${APP_PATH:-/var/app}
+        BUNDLE_VERSION: 2.2.27
+        BUNDLE_PATH: ${BUNDLE_PATH:-/usr/local/bundle/gems}
+        TMP_PATH: /tmp/
+        RAILS_LOG_TO_STDOUT: "true"
+        RAILS_PORT: 3000
+    container_name: app
+    volumes:
+      - .:${APP_PATH:-/var/app}
+      - shared_data:${SHARED_DATA_PATH:-/var/shared}
+      - gem_cache:${BUNDLE_PATH:-/usr/local/bundle/gems}
+    networks:
+      - development
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+    env_file: .env.development
+    entrypoint: ./entrypoint-dev.sh
+    command: ["rails", "server", "-p", "3000", "-b", "0.0.0.0"]
+    environment:
+      RAILS_ENV: development
+    depends_on:
+      - db
+  test:
+    image: rails-kata_app
+    container_name: test
+    volumes:
+      - .:${APP_PATH:-/var/app}
+      - shared_data:${SHARED_DATA_PATH:-/var/shared}
+      - gem_cache:${BUNDLE_PATH:-/usr/local/bundle/gems}
+    networks:
+      - test
+    ports:
+      - 3001:3000
+    stdin_open: true
+    tty: true
+    env_file: .env.test
+    entrypoint: ./entrypoint-test.sh
+    command: ["rails", "-v"]
+    environment:
+      RAILS_ENV: test
+    depends_on:
+      - db
