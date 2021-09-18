@@ -1,5 +1,17 @@
 <h1><%= @product.title %></h1>
-
-<h3><%= @product.blurb %></h3>
-
+<p><em><%= @product.blurb %></em></p>
 <p><%= @product.description %></p>
+
+<h2>Reviews</h2>
+<% if @product.reviews.any? %>
+  <ul>
+    <% @product.reviews.each do |review| %>
+      <li>
+        <%= review.rating %>, <%= review.content %>
+      </li>
+    <% end %>
+  </ul>
+  <%= link_to "Add your review", new_product_review_path(@product) %>
+<% else %>
+  <p>This product doesn't have any reviews yet, why don't you <%= link_to "add the first one?", new_product_review_path(@product) %></p>
+<% end %>

@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  rating: 5
+  content: This book is the best, I even forgot who Jason is.
+  product_id: 1
+
+two:
+  id: 2
+  rating: 4
+  content: Good read, but couldn't find my voucher for angel investment.
+  product_id: 1
+
+three:
+  id: 3
+  rating: 3
+  content: I thought Travis was a CI service, but apparently he's a proper tech bro.
+  product_id: 2
