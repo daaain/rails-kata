@@ -18,10 +18,12 @@ To get everything going (Docker images built, database set up, app and tests run
 make
 ```
 
-Rails commands can be run in a container like this:
+Then set the database up:
 
 ```sh
-make rails -- generate controller Home index --skip-routes
+make rails -- db:setup
+make rails -- db:migrate
+make rails -- db:fixtures:load
 ```
 
 ## Deployment to Google Cloud Run

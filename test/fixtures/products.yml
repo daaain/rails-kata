@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  title: The Minimalist Entrepreneur
+  blurb: A revolutionary roadmap for building businesses that go the distance.
+  description: If you've ever thought, "maybe I should start my own own business," only to stall when complications pop up, The Minimalist Entrepreneur is for you. Part manifesto, part manual, this step-by-step guide will show you how to build a profitable, sustainable company of any size from anywhere for the communities you care about most.
+
+two:
+  id: 2
+  title: The Bloated Unicorn
+  blurb: It's not a horse with a horn that ate too much, it's a startup that likes money more than anything else.
+  description: It's going to be great as long as venture capitalists pour more money every time we ask, everyone keeps the greyballing secret and some of the bros stop throwing beer kegs from the top of the corporate building.
