@@ -55,5 +55,7 @@ RUN yarn install --no-cache --frozen-lockfile
 
 COPY --chown=app:rails . ./
 
+RUN bundle exec rake assets:precompile
+
 ENTRYPOINT ["./entrypoint.sh"]
 CMD ["rails", "server"]

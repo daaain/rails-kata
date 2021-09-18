@@ -14,11 +14,6 @@ if [ "$WARMUP_DEPLOY" == "true" ]; then
 #   echo "Warmup deploy: running deploy tasks..."
 #   bundle exec rake deploy:prepare
 #   echo "Warmup deploy: deploy tasks done"
-
-  # Finally, compile assets
-  echo "Warmup deploy: compiling assets..."
-  bundle exec rake assets:precompile
-  echo "Warmup deploy: asset compiling done..."
 fi
 
 echo "Starting on port: $PORT"

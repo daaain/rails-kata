@@ -40,3 +40,4 @@ yarn-debug.log*
 /config/credentials.yml.enc
 creds
 .env
+test.sh

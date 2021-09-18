@@ -66,6 +66,7 @@ And finally push a deployment out:
 PROJECT_ID=<your-project-id> APP_VERSION=0.0.1 deploy.sh
 ```
 
-### TODO
+### Possible improvements
 
-* Replace Rails server in production with a more performant Rack server by installing one and editing `config.ru`
+* Store precompiled assets in buckets and serve from there
+* Move Rails Master key to some key management system
