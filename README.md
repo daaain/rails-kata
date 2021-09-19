@@ -6,7 +6,7 @@ It's using Rails 6.1.4 on Ruby 3.0.2 with PostgreSQL 13.4.
 
 ## Setup
 
-The only system dependecies for development is Docker with Docker Compose and Make.
+The only system dependencies for development is Docker with Docker Compose and Make.
 
 NOTE: I only tried this on an AMD64 Mac laptop, it might need some adjustments for ARM64. There might also be some issues on Windows (try with WSL2), but should work on Linux too.
 
@@ -16,14 +16,6 @@ To get everything going (Docker images built, database set up, app and tests run
 
 ```sh
 make
-```
-
-Then once things are up and running, in a separate terminal window (or by closing the log stream with Ctrl+C, you can reattach with `make logs` afterwards) set the database up:
-
-```sh
-make rails -- db:setup
-make rails -- db:migrate
-make rails -- db:fixtures:load
 ```
 
 Now you're ready to try it on http://localhost:3000!

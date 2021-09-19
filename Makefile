@@ -1,4 +1,4 @@
-default: build db_create start logs
+default: build db_reset start logs
 
 build:
 	docker-compose build --build-arg GROUPID=$$(id -g) --build-arg USERID=$$(id -u)
@@ -12,9 +12,9 @@ logs:
 	docker-compose logs --follow --timestamps --tail=100
 .PHONY: logs
 
-db_create:
-	docker-compose run --rm app rake db:create
-.PHONY: db_create
+db_reset:
+	docker-compose run --rm app rake db:fixtures:load
+.PHONY: db_reset
 
 rails:
 	docker-compose run --rm app rails $(RUN_ARGS)
