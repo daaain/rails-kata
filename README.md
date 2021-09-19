@@ -18,13 +18,15 @@ To get everything going (Docker images built, database set up, app and tests run
 make
 ```
 
-Then set the database up:
+Then in a separate terminal window set the database up:
 
 ```sh
 make rails -- db:setup
 make rails -- db:migrate
 make rails -- db:fixtures:load
 ```
+
+Now you're ready to try it on http://localhost:3000!
 
 ## Deployment to Google Cloud Run
 
@@ -65,10 +67,10 @@ APP_VERSION=0.0.1 DOCKER_IMAGE=gcr.io/<your-project-id>/rails-app make release_p
 And finally push a deployment out:
 
 ```sh
-PROJECT_ID=<your-project-id> APP_VERSION=0.0.1 deploy.sh
+PROJECT_ID=<your-project-id> APP_VERSION=0.0.1 MIGRATE=true deploy.sh
 ```
 
 ### Possible improvements
 
-* Store precompiled assets in buckets and serve from there
+* Store precompiled assets in a bucket and serve from there
 * Move Rails Master key to some key management system

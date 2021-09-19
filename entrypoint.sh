@@ -3,17 +3,16 @@ set -e
 
 echo "Running environment: $RAILS_ENV"
 
-if [ "$WARMUP_DEPLOY" == "true" ]; then
-  # The traditional Rails migration
+if [ "$MIGRATE" == "true" ]; then
   echo "Warmup deploy: running migrations..."
-  bundle exec rake db:migrate
+  bundle exec rails db:migrate
   echo "Warmup deploy: migrations done"
+fi
 
-  # This is a custom Rake task which perform additional steps our application needs 
-  # (e.g. setup cron jobs via Cloudtasker)
-#   echo "Warmup deploy: running deploy tasks..."
-#   bundle exec rake deploy:prepare
-#   echo "Warmup deploy: deploy tasks done"
+if [ "$DB_SEED" == "true" ]; then
+  echo "Warmup deploy: seeding database..."
+  bundle exec rails db:fixtures:load
+  echo "Warmup deploy: seeding database done"
 fi
 
 echo "Starting on port: $PORT"
