@@ -18,7 +18,7 @@ To get everything going (Docker images built, database set up, app and tests run
 make
 ```
 
-Then in a separate terminal window set the database up:
+Then once things are up and running, in a separate terminal window (or by closing the log stream with Ctrl+C, you can reattach with `make logs` afterwards) set the database up:
 
 ```sh
 make rails -- db:setup

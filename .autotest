@@ -1,0 +1,15 @@
+# -*- ruby -*-
+
+require 'autotest/restart'
+
+Autotest.add_hook :initialize do |at|
+  at.add_exception '.git'
+  at.add_exception 'log'
+  at.add_exception 'tmp'
+  at.add_exception 'vendor'
+  at.add_exception 'node_modules'
+  at.add_exception 'bin'
+  at.add_exception 'storage'
+  at.add_exception '.dccache'
+  at.add_exception '..DS_Store'
+end

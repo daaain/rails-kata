@@ -7,6 +7,7 @@ networks:
 volumes:
   db_data:
   gem_cache:
+  yarn_cache:
   shared_data:
 
 services:
@@ -33,6 +34,7 @@ services:
     ports:
       - 5432:5432
   app:
+    image: rails_app
     build:
       context: .
       dockerfile: Dockerfile.development
@@ -48,6 +50,7 @@ services:
       - .:${APP_PATH:-/var/app}
       - shared_data:${SHARED_DATA_PATH:-/var/shared}
       - gem_cache:${BUNDLE_PATH:-/usr/local/bundle/gems}
+      - yarn_cache:${YARN_CACHE_PATH:-/usr/local/share/.cache/yarn/v6}
     networks:
       - development
     ports:
@@ -62,12 +65,13 @@ services:
     depends_on:
       - db
   test:
-    image: rails-kata_app
+    image: rails_app
     container_name: test
     volumes:
       - .:${APP_PATH:-/var/app}
       - shared_data:${SHARED_DATA_PATH:-/var/shared}
       - gem_cache:${BUNDLE_PATH:-/usr/local/bundle/gems}
+      - yarn_cache:${YARN_CACHE_PATH:-/usr/local/share/.cache/yarn/v6}
     networks:
       - test
     ports:
@@ -76,8 +80,24 @@ services:
     tty: true
     env_file: .env.test
     entrypoint: ./entrypoint-test.sh
-    command: ["rails", "-v"]
+    command: ["autotest"]
     environment:
       RAILS_ENV: test
     depends_on:
       - db
+  selenium:
+    container_name: selenium
+    image: selenium/standalone-chrome-debug
+    networks:
+      - test
+    ports:
+      - "4444:4444"
+      - "5900:5900"
+    volumes:
+      - /dev/shm:/dev/shm
+    stdin_open: true
+    tty: true
+    environment:
+      VNC_NO_PASSWORD: '1'
+      GRID_DEBUG: "true"
+      DEBUG: "true"

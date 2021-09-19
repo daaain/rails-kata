@@ -11,3 +11,9 @@ two:
   title: The Bloated Unicorn
   blurb: It's not a horse with a horn that ate too much, it's a startup that likes money more than anything else.
   description: It's going to be great as long as venture capitalists pour more money every time we ask, everyone keeps the greyballing secret and some of the bros stop throwing beer kegs from the top of the corporate building.
+
+three:
+  id: 3
+  title: An Obscure Book
+  blurb: No one knows what it is about, apparently the author herself doesn't remember either.
+  description: 🤷‍♀️
