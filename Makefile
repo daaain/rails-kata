@@ -29,13 +29,13 @@ stop:
 .PHONY: stop
 
 release_build:
-	docker-compose --file compose-production.yml build
+	. ./env.sh && docker-compose --file compose-production.yml build
 .PHONY: release_build
 
 release_push:
-	docker tag $$DOCKER_IMAGE "$$DOCKER_IMAGE:$$APP_VERSION"
-	docker push $$DOCKER_IMAGE:$$APP_VERSION
-	docker tag $$DOCKER_IMAGE "$$DOCKER_IMAGE:latest"
+	. ./env.sh && docker tag $$DOCKER_IMAGE "$$DOCKER_IMAGE:$$APP_VERSION" && \
+	docker push $$DOCKER_IMAGE:$$APP_VERSION && \
+	docker tag $$DOCKER_IMAGE "$$DOCKER_IMAGE:latest" && \
 	docker push $$DOCKER_IMAGE:latest
 .PHONY: release_push
 

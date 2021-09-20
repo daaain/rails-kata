@@ -1,14 +1,7 @@
 #!/bin/sh
 set -e
 
-if [ -z $PROJECT_ID ] ||[ -z $APP_VERSION ]; then
-  echo "PROJECT_ID and APP_VERSION must be set"
-  exit 1
-fi
-
-export REGION=europe-west1
-export CLOUD_SQL_INSTANCE=rails-app
-export DOCKER_IMAGE=gcr.io/$PROJECT_ID/rails-app
+. ./env.sh
 
 # First deploy with database migration if called with MIGRATE=true – see entrypoint.sh
 if [ "$MIGRATE" == "true" ] && [ "$DB_SEED" == "true" ]; then

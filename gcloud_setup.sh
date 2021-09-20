@@ -1,12 +1,11 @@
 #!/bin/sh
 set -e
 
-export REGION=europe-west1
-export CLOUD_SQL_INSTANCE=rails-app
+. ./env.sh
+
 export DATABASE_NAME=rails
 export DATABASE_USERNAME=rails
 export DATABASE_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc '[:alpha:]'| fold -w 50 | head -n1)
-export DOCKER_IMAGE=gcr.io/$PROJECT_ID/rails-app
 
 # Switch to the project and set region
 gcloud config set project $PROJECT_ID

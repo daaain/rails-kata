@@ -27,7 +27,8 @@ The project is set up with the configuration and scripts required to easily depl
 ### Project and CLI setup
 
 First, you need to:
-1. [create a new project in GCP](https://console.cloud.google.com/projectselector2/home/dashboard) – note down the generated project ID and number
+
+1. [create a new project in GCP](https://console.cloud.google.com/projectselector2/home/dashboard) – note down the generated project ID
 2. [enable billing](https://cloud.google.com/billing/docs/how-to/modify-project)
 3. [enable the Cloud Run, Cloud SQL, and Compute Engine APIs](https://console.cloud.google.com/flows/enableapi?apiid=run.googleapis.com,sql-component.googleapis.com,sqladmin.googleapis.com,compute.googleapis.com)
 4. [install the Cloud SDK](https://cloud.google.com/sdk/docs/install) (you'll need the `gcloud` CLI in particular)
@@ -41,25 +42,31 @@ NOTE: this only works after the development setup step above is done as it'll us
 make build
 ```
 
-Due to the simplicity of this exercise, the infrastructure is set up with a series of `gcloud` commands rather than using Terraform or any other "proper" Infrastructure as Code tool.
-
-Once you've finished with the project and CLI setup, you can set the rest up by typing:
+Before you can run the scripts below, you need to set up some environment variables by typing:
 
 ```sh
-PROJECT_ID=<your-project-id> PROJECT_NUMBER=<your-project-number> gcloud_setup.sh
+sed "s/PROJECT_ID=/PROJECT_ID=<your-gcp-project-id>/g" env-template.sh > env.sh && chmod +x env.sh
 ```
 
-Now you're ready to build a release image (the APP_VERSION needs to be incremented for subsequent releases):
+Due to the simplicity of this exercise, the infrastructure is set up with a series of `gcloud` commands rather than using Terraform or any other "proper" Infrastructure as Code tool. This also makes it simpler to automatically save a generated database password into the Rails credentials without having to save it in a file or to display it in the terminal. If you want to see the database password and other secrets decrypted, you can use `make show_secrets`.
+
+Now you can set up the GCP infrastructure by typing:
 
 ```sh
-DOCKER_IMAGE=gcr.io/<your-project-id>/rails-app make release_build
-APP_VERSION=0.0.1 DOCKER_IMAGE=gcr.io/<your-project-id>/rails-app make release_push
+gcloud_setup.sh
+```
+
+Then you're ready to build a release image:
+
+```sh
+make release_build
+make release_push
 ```
 
 And finally push a deployment out:
 
 ```sh
-PROJECT_ID=<your-project-id> APP_VERSION=0.0.1 MIGRATE=true deploy.sh
+MIGRATE=true DB_SEED=true deploy.sh
 ```
 
 ### Possible improvements
