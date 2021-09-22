@@ -3,6 +3,8 @@ set -e
 
 . ./env.sh
 
+gcloud config set project $PROJECT_ID
+
 # First deploy with database migration if called with MIGRATE=true – see entrypoint.sh
 if [ "$MIGRATE" == "true" ] && [ "$DB_SEED" == "true" ]; then
   gcloud run deploy rails \
