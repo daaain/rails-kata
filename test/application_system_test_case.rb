@@ -23,12 +23,16 @@ Capybara.register_driver :selenium_container do |app|
 end
 
 Capybara.configure do |config|
-  config.server_host = ENV.fetch('TEST_RAILS_BASE_URL') { 'test' }
+  config.app_host = ENV.fetch('TEST_RAILS_BASE_URL') { 'http://systemtest' }
+  config.server_host = '0.0.0.0'
   config.server_port = 3001
+  config.always_include_port = true
 
-  config.default_max_wait_time = 6
+  config.default_max_wait_time = 100
   config.default_driver = :selenium
   config.javascript_driver = :selenium
+
+  config.automatic_label_click = true
 end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase

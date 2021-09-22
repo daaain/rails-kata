@@ -5,8 +5,16 @@ build:
 .PHONY: build
 
 start:
-	docker-compose up --detach --force-recreate
+	docker-compose up --detach app
 .PHONY: start
+
+test:
+	docker-compose up --detach test
+.PHONY: test
+
+systemtest:
+	docker-compose up --detach systemtest
+.PHONY: systemtest
 
 logs:
 	docker-compose logs --follow --timestamps --tail=100

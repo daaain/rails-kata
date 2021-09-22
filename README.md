@@ -12,13 +12,29 @@ NOTE: I only tried this on an AMD64 Mac laptop, it might need some adjustments f
 
 ## Development
 
-To get everything going (Docker images built, database set up, app and tests running), just type:
+To get everything going (Docker images built, database set up, app and webpacker running), just type:
 
 ```sh
 make
 ```
 
 Now you're ready to try it on http://localhost:3000!
+
+NOTE: the containers are running in the background so you can close the logging output with Ctrl + C without killing the Rails server. You can reattach later with `make logs`.
+
+### Testing
+
+To run unit and system tests and watch changes with `autotest`, type:
+
+```sh
+make test logs
+```
+
+NOTE: this assumes you already ran `make` above and have the images built and database set up, otherwise you need to run:
+
+```sh
+make build db_reset test logs
+```
 
 ## Deployment to Google Cloud Run
 
