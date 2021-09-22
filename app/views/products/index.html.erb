@@ -1,11 +1,18 @@
-<h1>Products</h1>
+<h1 class="title">Products</h1>
 
-<ul>
+<ul class="columns is-multiline">
   <% @products.each do |product| %>
-    <li>
-        <h2><%= product.title %></h2>
-        <p><%= product.blurb %></p>
-        <%= link_to "See details", product_path(product) %>
+    <li class="column is-half is-flex">
+      <%= link_to product_path(product), class: "box is-flex is-flex-direction-column is-justify-content-space-between is-full-width" do %>
+        <h2 class="title is-4"><%= product.title %></h2>
+          <div class="block is-flex-grow-5 is-flex is-flex-direction-column is-justify-content-flex-start">
+            <p class="subtitle"><%= product.blurb %></p>
+          </div>
+        <div class="has-text-primary has-text-weight-bold is-flex is-justify-content-space-between is-align-items-center">
+          <span class="is-size-5">See details</span>
+          <span class="is-size-3">›</span>
+        </div>
+      <% end %>
     </li>
   <% end %>
 </ul>

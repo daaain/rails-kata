@@ -7,7 +7,7 @@ class ReviewsTest < ApplicationSystemTestCase
     visit product_path(product)
     click_link 'Add your review'
     fill_in 'Review', with: 'This is the bestest product ever!'
-    page.choose '5'
+    page.choose 'review_rating_5'
     click_on 'Submit review'
     page.has_content? product.reviews.last.content
   end

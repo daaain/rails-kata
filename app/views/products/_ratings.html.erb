@@ -1,0 +1,10 @@
+<div class="ratings is-flex is-align-items-center">
+  <% (1..5).each do |i| %>
+    <% if i <= rating.round() %>
+    <span class="star">⭐️</span>
+    <% else %> 
+    <span class="star star-off">⭐️</span>
+    <% end %>
+  <% end %>
+  <span class="is-size-5 has-text-weight-bold ml-1 mr-4"><%= rating %></span>
+</div>
