@@ -3,6 +3,7 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
+import 'stylesheets/bulma'
 import 'stylesheets/application'
 
 import Rails from "@rails/ujs"
