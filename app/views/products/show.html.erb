@@ -2,21 +2,5 @@
 <p class="block subtitle"><%= @product.blurb %></p>
 <p class="block"><%= @product.description %></p>
 
-<% if @product.reviews.any? %>
-  <h3 class="title is-5">Average rating</h3>
-  <%= render 'ratings', rating: @product.reviews.average(:rating).round(2) %>
-  <hr/>
-  <h2 class="title is-4">Reviews</h2>
-  <ul class="columns is-multiline is-justify-content-flex-start">
-    <% @product.reviews.each do |review| %>
-      <li class="column is-half is-flex is-align-items-center">
-        <%= render 'ratings', rating: review.rating %>
-        <span><%= review.content %></span>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p class="block">No reviews yet, why don't you add the first one?</p>
-<% end %>
-
-<%= link_to "Add your review", new_product_review_path(@product), class: "button is-primary" %>
+<div id="reviews-react" data-product-id="<%= @product.id %>"><b>Loading reviews...</b></div>
+<%= javascript_packs_with_chunks_tag 'reviews', 'data-turbolinks-track': 'reload' %>

@@ -17,9 +17,10 @@
     cursor: pointer;
   }
   
-  label, .star {
-    font-size: 1.5em;
-    padding: 0.1em;
+  label,
+  .star {
+    font-size: 1.5rem;
+    padding: 0.1rem;
     margin: 0;
     transition: all 0.3s cubic-bezier(0.800, 0.200, 0.200, 0.800);
   }
@@ -27,7 +28,7 @@
   input[type="radio"]:checked ~ input + label:hover,
   label:hover {
     color: #000000F0;
-    text-shadow: 0 0 0.25em yellow;
+    text-shadow: 0 0 0.25rem yellow;
   }
   
   input[type="radio"]:checked ~ input + label:hover {
@@ -46,3 +47,59 @@
   }
 }
 
+
+input[type="checkbox"].toggle {
+	position: fixed;
+  top: 0;
+  right: 100%;
+  
+	+ .toggle-button {
+		outline: 0;
+		display: block;
+		width: 3rem;
+		height: 1.5rem;
+		position: relative;
+		cursor: pointer;
+    user-select: none;
+    
+    background: #999999;
+		border-radius: 0.3em;
+		padding: 0.3em;
+		transition: all 0.4s cubic-bezier(0.800, 0.200, 0.200, 0.800);
+    
+		&:after,
+    &:before {
+			position: relative;
+			display: block;
+			content: "";
+			width: 50%;
+			height: 100%;
+		}
+    
+		&:after {
+			left: 0;
+      border-radius: 0.3rem;
+			background: #fff;
+			transition: all 0.4s cubic-bezier(0.800, 0.200, 0.200, 0.800);
+		}
+    
+		&:before {
+			display: none;
+		}
+
+    span {
+      position: absolute;
+      right: 4rem;
+      width: 10rem;
+      top: 0;
+      text-align: right;
+    }
+	}
+  
+  &:checked + .toggle-button {
+		background: $primary;
+    &:after {
+      left: 50%;
+    }
+	}
+}

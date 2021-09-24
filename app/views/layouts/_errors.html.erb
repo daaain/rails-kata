@@ -1,8 +1,0 @@
-<% if object.errors.any? %>
-  <h2 class="title is-4 has-text-danger">There were some errors when submitting the form:</h2>
-  <ul class="block">
-    <% object.errors.full_messages.each do |message| %>
-      <li class="notification is-danger is-light"><%= message %></li>
-    <% end %>
-  </ul>
-<% end %>
