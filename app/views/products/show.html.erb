@@ -2,5 +2,8 @@
 <p class="block subtitle"><%= @product.blurb %></p>
 <p class="block"><%= @product.description %></p>
 
-<div id="reviews-react" data-product-id="<%= @product.id %>"><b>Loading reviews...</b></div>
-<%= javascript_packs_with_chunks_tag 'reviews', 'data-turbolinks-track': 'reload' %>
+<div id="reviews-react" data-product-id="<%= @product.id %>">
+  <b>Loading reviews...</b>
+  <div class="no-react"></div>
+</div>
+<%= javascript_packs_with_chunks_tag 'react-reviews', 'data-turbolinks-track': 'reload' %>

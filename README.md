@@ -90,4 +90,5 @@ MIGRATE=true DB_SEED=true deploy.sh
 * Store precompiled assets in a bucket and serve from there with a CDN front
 * Move Rails Master key to some key management system like Google Secrets Manager
 * Switch to Redis for Action Cable in production (currently using Postgres)
-* Find out why Turbolinks won't cache the React rendered HTML – though it might be better to switch to Turbo instead
+* Find out if it's possible to stop Turbolinks from replacing React HTML and only used the cached version – though it might be better to switch to Turbo instead as Turbolinks isn't supported any more
+* Replace JBuilder templates as apparently partial rendering is really slow

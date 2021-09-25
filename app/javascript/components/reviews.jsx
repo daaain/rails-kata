@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Review from '../components/review'
 import CreateReview from '../components/create_review'
-import consumer from "../channels/consumer"
 
 const Reviews = props => {
   const [showCreateReview, setCreateReview] = useState(false);
@@ -88,54 +86,4 @@ Reviews.propTypes = {
   removeSubscription: PropTypes.func.isRequired
 }
 
-document.addEventListener('turbolinks:load', () => {
-  const reviewsElement = document.getElementById('reviews-react')
-  if (reviewsElement?.dataset?.productId) {
-    const productId = reviewsElement.dataset.productId
-    
-    const loadReviews = async () => {
-      const response = await fetch(`/api/v1/products/${productId}/reviews`)
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return await response.json()
-    }
-
-    const submitReview = (rating, content) => {
-      return fetch(`/api/v1/products/${productId}/reviews`, {
-        headers: { "Content-Type": "application/json; charset=utf-8" },
-        method: 'POST',
-        body: JSON.stringify({
-          product_id: productId,
-          content,
-          rating
-        })
-      })
-    }
-
-    let subscription;
-    const createSubscription = receiveCallback => {
-      subscription = consumer.subscriptions.create(
-        {
-          channel: "ReviewsChannel",
-          product_id: productId
-        }, {
-        connected() {
-          console.log("ReviewsChannel connected")
-        },
-        disconnected() {
-          console.log("ReviewsChannel disconnected")
-        },
-        received(data) {
-          console.log("ReviewsChannel received", data)
-          receiveCallback(data)
-        }
-      });
-    }
-    const removeSubscription = () => {
-      consumer.subscriptions.remove(subscription);
-    }
-    
-    ReactDOM.render(<Reviews loadReviews={loadReviews} submitReview={submitReview} createSubscription={createSubscription} removeSubscription={removeSubscription} />, reviewsElement)
-  }
-})
+export default Reviews

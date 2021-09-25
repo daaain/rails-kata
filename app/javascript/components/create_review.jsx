@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 const CreateReview = props => {
@@ -36,10 +36,10 @@ const CreateReview = props => {
             <h2><label className="title is-4" htmlFor="review_rating">Rating</label></h2>
             <div className="ratings block" onChange={setRatingWithEvent}>
               {
-                [1, 2, 3, 4, 5].map(i => <>
+                [1, 2, 3, 4, 5].map(i => <Fragment key={i}>
                   <input type="radio" checked={rating === i} onChange={setRatingWithEvent} value={`${i}`} name="review[rating]" id={`review_rating_${i}`} />
                   <label htmlFor={`review_rating_${i}`}>⭐️</label>
-                </>)
+                </Fragment>)
               }
             </div>
             <h2><label className="title is-4" htmlFor="review_content">Review</label></h2>
