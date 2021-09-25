@@ -58,13 +58,13 @@ NOTE: this only works after the development setup step above is done as it'll us
 make build
 ```
 
+Due to the simplicity of this exercise, the infrastructure is set up with a series of `gcloud` commands rather than using Terraform or any other "proper" Infrastructure as Code tool. This also makes it simpler to automatically save a generated database password into the Rails credentials without having to save it in a file or to display it in the terminal. If you want to see the database password and other secrets decrypted, you can use `make show_secrets`.
+
 Before you can run the scripts below, you need to set up some environment variables by typing:
 
 ```sh
 sed "s/PROJECT_ID=/PROJECT_ID=<your-gcp-project-id>/g" env-template.sh > env.sh && chmod +x env.sh
 ```
-
-Due to the simplicity of this exercise, the infrastructure is set up with a series of `gcloud` commands rather than using Terraform or any other "proper" Infrastructure as Code tool. This also makes it simpler to automatically save a generated database password into the Rails credentials without having to save it in a file or to display it in the terminal. If you want to see the database password and other secrets decrypted, you can use `make show_secrets`.
 
 Now you can set up the GCP infrastructure by typing:
 
@@ -72,14 +72,14 @@ Now you can set up the GCP infrastructure by typing:
 gcloud_setup.sh
 ```
 
-Then you're ready to build a release image:
+Then you're ready to build a release image and push it to Google Container Registry:
 
 ```sh
 make release_build
 make release_push
 ```
 
-And finally push a deployment out:
+And finally push a deployment out to Cloud Run:
 
 ```sh
 MIGRATE=true DB_SEED=true deploy.sh
@@ -87,5 +87,7 @@ MIGRATE=true DB_SEED=true deploy.sh
 
 ### Possible improvements
 
-* Store precompiled assets in a bucket and serve from there
-* Move Rails Master key to some key management system
+* Store precompiled assets in a bucket and serve from there with a CDN front
+* Move Rails Master key to some key management system like Google Secrets Manager
+* Switch to Redis for Action Cable in production (currently using Postgres)
+* Find out why Turbolinks won't cache the React rendered HTML – though it might be better to switch to Turbo instead
