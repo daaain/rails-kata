@@ -2,18 +2,24 @@
 
 one:
   id: 1
-  rating: 5
-  content: This book is the best, I even forgot who Jason is.
+  rating: "5.0"
+  content: This book is the best, I never thought I could start a business!
   product_id: 1
 
 two:
   id: 2
-  rating: 4
-  content: Good read, but couldn't find my voucher for angel investment.
+  rating: "4.0"
+  content: Good read, but couldn't find my voucher for angel investment, must have fallen out in the Amazon warehouse?
   product_id: 1
 
 three:
   id: 3
-  rating: 3
+  rating: "3.0"
   content: I thought Travis was a CI service, but apparently he's a proper tech bro.
   product_id: 2
+
+four:
+  id: 4
+  rating: "1.5"
+  content: I'm sorry, but I want a unicorn and nothing less will do.
+  product_id: 1

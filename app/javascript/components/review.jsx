@@ -2,20 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Review = props => (
-  <>
-    <div className="ratings is-flex is-align-items-center">
+  <div className="columns mx-0 is-multiline">
+    <div className="ratings my-2">
       {
-        [1, 2, 3, 4, 5].map(i => i <= props.review.rating ?
-            (<span key={i} className="star">⭐️</span>) :
-            (<span key={i} className="star star-off">⭐️</span>)
-        )
+        [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map(i => (
+          <div key={i} className={`${i % 1 == 0.5 ? "first" : "second"}-half-wrapper`}>
+            <span key={i} className={`star ${i % 1 == 0.5 ? "first" : "second"}-half ${i > props.review.rating && "star-off"}`}>⭐️</span>
+          </div>))
       }
-      <span className="is-size-5 has-text-weight-bold ml-1 mr-4">{props.review.rating}</span>
+      <span className="has-text-weight-bold mr-4 ml-1">{props.review.rating}</span>
     </div>
     {
-      props.review.content && <span>{props.review.content}</span>
+      props.review.content && <p className="my-2">{props.review.content}</p>
     }
-  </>
+  </div>
 )
 
 Review.propTypes = {
@@ -23,7 +23,7 @@ Review.propTypes = {
     content: PropTypes.string,
     created_at: PropTypes.string,
     updated_at: PropTypes.string,
-    rating: PropTypes.number.isRequired,
+    rating: PropTypes.string.isRequired,
     product_id: PropTypes.number,
     id: PropTypes.number
   }).isRequired

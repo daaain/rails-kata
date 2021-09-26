@@ -4,6 +4,7 @@ class Api::V1::ReviewsController < ApplicationController
   def index
     @product = Product.find(params[:product_id])
     @reviews = @product.reviews
+    render json: @reviews
   end
 
   def create

@@ -11,16 +11,11 @@ if (reviewsElement?.getElementsByClassName("no-react").length > 0 && reviewsElem
   const productId = reviewsElement.dataset.productId
   
   const loadReviews = async () => {
-    if(reviewsElement.dataset.reviews) {
-      return JSON.parse(reviews)
-    }
     const response = await fetch(`/api/v1/products/${productId}/reviews`)
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    const reviews = await response.json()
-    reviewsElement.dataset.reviews = JSON.stringify(reviews)
-    return reviews
+    return await response.json()
   }
 
   const submitReview = (rating, content) => {
@@ -60,3 +55,9 @@ if (reviewsElement?.getElementsByClassName("no-react").length > 0 && reviewsElem
   
   ReactDOM.render(<Reviews loadReviews={loadReviews} submitReview={submitReview} createSubscription={createSubscription} removeSubscription={removeSubscription} />, reviewsElement)
 }
+
+// Restoring the React host element as there's no way to stop Turbolinks from replacing it, so this
+// at least prevents the flash of cache before returning to the loading message.
+document.addEventListener("turbolinks:before-cache", (event) => {
+  reviewsElement.innerHTML = '<b>Loading reviews...</b>';
+})

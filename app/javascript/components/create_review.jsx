@@ -1,13 +1,17 @@
-import React, { useState, Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 
 const CreateReview = props => {
-  const [rating, setRating] = useState(1);
-  const setRatingWithEvent = event => setRating(parseInt(event.target.value, 10));
+  const [rating, setRating] = useState("0.5");
+  const setRatingWithEvent = event => setRating(event.target.value);
 
   const [content, setContent] = useState('');
   const setContentWithEvent = event => setContent(event.target.value);
   
+  const [hoveredRating, setHoveredRating] = useState(rating);
+  const setHoveredRatingWithEvent = event => setHoveredRating(event.target.control.value)
+  const resetHoveredRatingWithEvent = event => setHoveredRating(rating);
+
   const [error, setError] = useState(null);
   const submitReviewAndUpdateReviews = async event => {
     event.preventDefault();
@@ -33,18 +37,21 @@ const CreateReview = props => {
       <div className="modal-content">
         <div className="box">
           <form className="new_review" id="new_review" acceptCharset="UTF-8" onSubmit={submitReviewAndUpdateReviews}>
-            <h2><label className="title is-4" htmlFor="review_rating">Rating</label></h2>
-            <div className="ratings block" onChange={setRatingWithEvent}>
+            <label className="title is-4" htmlFor="review_rating">Rating</label>
+            <div className="ratings is-size-2 is-size-3-mobile" onChange={setRatingWithEvent}>
               {
-                [1, 2, 3, 4, 5].map(i => <Fragment key={i}>
-                  <input type="radio" checked={rating === i} onChange={setRatingWithEvent} value={`${i}`} name="review[rating]" id={`review_rating_${i}`} />
-                  <label htmlFor={`review_rating_${i}`}>⭐️</label>
+                [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map(i => <Fragment key={i}>
+                  <div className={`${i % 1 == 0.5 ? "first" : "second"}-half-wrapper`}>
+                    <input type="radio" checked={rating === `${i}`} value={`${i}`} name="review[rating]" id={`review_rating_${i}`} onChange={setRatingWithEvent} />
+                    <label className={`star ${i % 1 == 0.5 ? "first" : "second"}-half ${i > hoveredRating && "star-off"}`} htmlFor={`review_rating_${i}`} onMouseEnter={setHoveredRatingWithEvent} onMouseLeave={resetHoveredRatingWithEvent}>⭐️</label>
+                  </div>
                 </Fragment>)
               }
+              <span className="has-text-weight-bold ml-3 is-size-4">{rating}</span>
             </div>
-            <h2><label className="title is-4" htmlFor="review_content">Review</label></h2>
-            <div className="block">
-              <textarea className={`textarea block ${content.length === 0 && 'is-danger'}`} placeholder="Your review"  name="review[content]" id="review_content" value={content} onChange={setContentWithEvent} />
+            <label className="title is-4" htmlFor="review_content">Review</label>
+            <div className="block mt-2">
+              <textarea className={`textarea is-small block ${content.length === 0 && 'is-danger'}`} placeholder="Your review"  name="review[content]" id="review_content" value={content} onChange={setContentWithEvent} />
             </div>
             {error}
             <div className="block">
