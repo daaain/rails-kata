@@ -13,7 +13,7 @@ if [ "$MIGRATE" == "true" ] && [ "$DB_SEED" == "true" ]; then
     --region=$REGION \
     --update-env-vars=MIGRATE=true,DB_SEED=true \
     --set-cloudsql-instances=$PROJECT_ID:$REGION:$CLOUD_SQL_INSTANCE \
-    --allow-unauthenticated # this just means publicly accessible
+    --allow-unauthenticated
 elif [ "$MIGRATE" == "true" ]; then
   gcloud run deploy rails \
     --image=$DOCKER_IMAGE:$APP_VERSION \
@@ -21,7 +21,7 @@ elif [ "$MIGRATE" == "true" ]; then
     --region=$REGION \
     --update-env-vars=MIGRATE=true \
     --set-cloudsql-instances=$PROJECT_ID:$REGION:$CLOUD_SQL_INSTANCE \
-    --allow-unauthenticated # this just means publicly accessible
+    --allow-unauthenticated
 elif [ "$DB_SEED" == "true" ]; then
   gcloud run deploy rails \
     --image=$DOCKER_IMAGE:$APP_VERSION \
@@ -29,7 +29,7 @@ elif [ "$DB_SEED" == "true" ]; then
     --region=$REGION \
     --update-env-vars=DB_SEED=true \
     --set-cloudsql-instances=$PROJECT_ID:$REGION:$CLOUD_SQL_INSTANCE \
-    --allow-unauthenticated # this just means publicly accessible
+    --allow-unauthenticated
 fi
 
 # Then we deploy with just the Rails app running

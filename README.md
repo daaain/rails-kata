@@ -22,15 +22,27 @@ Now you're ready to try it on http://localhost:3000!
 
 NOTE: the containers are running in the background so you can close the logging output with Ctrl + C without killing the Rails server. You can reattach later with `make logs`.
 
+To run Rails commands, you can either shell in to the running container with `make app_shell` or start up or run in a separate container using:
+
+```sh
+make rails -- generate controller Greetings hello
+```
+
 ### Testing
 
-To run unit and system tests and watch changes with `autotest`, type:
+To run unit and watch changes with `autotest`, type:
 
 ```sh
 make test logs
 ```
 
-NOTE: this assumes you already ran `make` above and have the images built and database set up, otherwise you need to run:
+And system tests like this (they will only run once, without a watcher):
+
+```sh
+make systemtest logs
+```
+
+NOTE: these assume you already ran `make` above and have the images built and database set up, otherwise you need to run:
 
 ```sh
 make build db_reset test logs
@@ -38,7 +50,7 @@ make build db_reset test logs
 
 ## Deployment to Google Cloud Run
 
-The project is set up with the configuration and scripts required to easily deploy the Rails application image as a container in Google Cloud Run with a Cloud SQL Postgres instance.
+The project is set up with the configuration and scripts required to easily deploy the Rails application image as a container in Google Cloud Run with a Cloud SQL Postgres instance. These provide Heroku-like simplicity, but for much less money and with much more flexibility!
 
 ### Project and CLI setup
 
@@ -58,7 +70,7 @@ NOTE: this only works after the development setup step above is done as it'll us
 make build
 ```
 
-Due to the simplicity of this exercise, the infrastructure is set up with a series of `gcloud` commands rather than using Terraform or any other "proper" Infrastructure as Code tool. This also makes it simpler to automatically save a generated database password into the Rails credentials without having to save it in a file or to display it in the terminal. If you want to see the database password and other secrets decrypted, you can use `make show_secrets`.
+Due to the simplicity of this exercise, the infrastructure is set up with a series of `gcloud` commands rather than using Terraform or any other "proper" Infrastructure as Code tool. This also makes it simpler to automatically save a generated database password into the Rails credentials without having to save it in a file or to display it in the terminal. If you want to see the database password and other secrets decrypted afterwards, you can use `make show_secrets`.
 
 Before you can run the scripts below, you need to set up some environment variables by typing:
 
@@ -87,8 +99,8 @@ MIGRATE=true DB_SEED=true deploy.sh
 
 ### Possible improvements
 
-* Store precompiled assets in a bucket and serve from there with a CDN front
+* Store precompiled assets in a bucket and serve from there with a CDN front – currently they are baked in the production image for quick startup, but leaving Rails to serve them up
 * Move Rails Master key to some key management system like Google Secrets Manager
-* Switch to Redis for Action Cable in production (currently using Postgres)
+* Switch to Redis for Action Cable in production – currently using Postgres which is OK without heavy traffic
 * Find out if it's possible to stop Turbolinks from replacing React HTML and only used the cached version – though it might be better to switch to Turbo instead as Turbolinks isn't supported any more
-* Replace JBuilder templates as apparently partial rendering is really slow
+* Submit new reviews via WebSocket instead of JSON API
