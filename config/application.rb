@@ -33,8 +33,6 @@ module App
     # config.eager_load_paths << Rails.root.join("extras")
 
     # disable wrapping form elements in extra div when in error state
-    config.action_view.field_error_proc = proc { |html_tag, _instance|
-      html_tag.html_safe
-    }
+    config.action_view.field_error_proc = proc { |html_tag, _instance| html_tag.html_safe }
   end
 end

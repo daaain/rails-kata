@@ -9,16 +9,17 @@ Capybara.register_driver :selenium_container do |app|
     app,
     browser: :remote,
     url: "#{selenium_url}/wd/hub",
-    desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
-      'goog:chromeOptions' => {
-        'args' => [
-          '--no-default-browser-check',
-          '--start-maximized',
-          '--ash-host-window-bounds 1024x768*2',
-          '--verbose'
-        ]
-      }
-    )
+    desired_capabilities:
+      Selenium::WebDriver::Remote::Capabilities.chrome(
+        'goog:chromeOptions' => {
+          'args' => [
+            '--no-default-browser-check',
+            '--start-maximized',
+            '--ash-host-window-bounds 1024x768*2',
+            '--verbose',
+          ],
+        },
+      ),
   )
 end
 

@@ -1,8 +1,9 @@
 {
-    "singleQuote": true,
-    "trailingComma": "all",
-    "semi": false,
-    "arrowParens": "avoid",
-    "plugins": ["@prettier/plugin-ruby", "prettier-plugin-erb"],
-    "rubySingleQuote": true
-  }
+  "printWidth": 100,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "semi": false,
+  "arrowParens": "avoid",
+  "plugins": ["@prettier/plugin-ruby", "prettier-plugin-erb"],
+  "rubySingleQuote": true
+}
